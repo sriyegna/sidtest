@@ -1,0 +1,29 @@
+{
+  "trails": [
+    {
+      "name": "Rinus Run",
+      "positions": [
+        [1082, 1571],
+        [936, 1537.5],
+        [707.7, 1472.4],
+        [471.98, 1450.03],
+        [363, 1466],
+        [328, 1526]
+      ],
+      "isCompleted": true,
+      "runCounter": 0
+    },
+    {
+      "name": "Crooked Oak",
+      "positions": [
+        [944,965],
+        [849,937],
+        [666,949.5],
+        [621,937],
+        [480.5,937.75]
+      ],
+      "isCompleted": false,
+      "runCounter": 0
+    }
+  ]
+}
