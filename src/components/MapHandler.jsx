@@ -2,10 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 import { useMapEvent } from "react-leaflet/hooks";
 import { Polyline } from "react-leaflet";
 import blueMountain from './blue-mountain.json'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  increment,
+  decrement,
+  isCompleted,
+  selectTrails
+} from '../features/trailsSlice';
 
 const MapHandler = () => {
-  const [state, setState] = useState(blueMountain)
-  // const blueMountainTrails = useSelector()
+  const blueMountainTrails = useSelector(selectTrails)
+  const dispatch = useDispatch();
+  // console.log('bmtrail', blueMountainTrails)
 
   const onDoubleClick = useCallback(
     (e) => {
@@ -24,20 +32,29 @@ const MapHandler = () => {
 
   return (
     <>
-      {state.trails.map((trail, id) => 
-        (<Polyline
-          key={id}
-          positions={trail.positions}
-          pathOptions={{ color: 'purple', weight: 15, opacity: trail.isCompleted ? 0.5 : 0 }}
-          eventHandlers={{
-            click: () => {
-              // console.log(state)
-              const tempState = { ...state, trails: [...state.trails] }
-              tempState.trails[id].isCompleted = !trail.isCompleted
-              setState(tempState)
-            },
-          }}
-        />)
+      {Object.values(blueMountain.trails).map((trail, id) => {
+        console.log('name', trail.name)        
+        console.log('obj', Object.values(blueMountain.trails))
+        console.log('state', blueMountainTrails)
+        console.log('bm', blueMountainTrails.trails[trail.name])
+
+        return (
+          <Polyline
+            key={id}
+            positions={trail.positions}
+            pathOptions={{ color: 'purple', weight: 15, opacity: blueMountainTrails.trails[trail.name].isCompleted ? 0.5 : 0 }}
+            eventHandlers={{
+              click: () => {
+
+                if (!blueMountainTrails.trails[trail.name].isCompleted) {
+                  dispatch(isCompleted(trail.name))
+                }
+                // if already true, open dialog
+              },
+            }}
+          />
+        )
+      }
       )}
     </>
   )
