@@ -9,6 +9,10 @@ const initialState = {
         "Crooked Oak": {
             "isCompleted": false,
             "runCounter": 0
+        },
+        "Apple Bowl": {
+            "isCompleted": false,
+            "runCounter": 0
         }
     }
 };
