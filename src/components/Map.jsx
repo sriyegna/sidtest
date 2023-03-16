@@ -8,13 +8,17 @@ import "leaflet/dist/leaflet.css";
 // import L from "leaflet";
 
 const M = ({ width, height, zoom, center }) => {
-  const wh = [width, 3250];
+  const hw = [height, width];
   const origin = [0, 0];
-  const bounds = [origin, wh];
+  const bounds = [origin, hw];
+
+  //axios call to get all run data from db, store in redux
+  // have loading screen
+  // .then render mapContariner
 
   return (
 
-    <div style={{ width: "1920px", height: "1000px" }}>
+    <div style={{ width: "1920px", height: "950px" }}>
       <MapContainer
 
         bounds={zoom ? undefined : bounds}
@@ -48,7 +52,7 @@ const Map = () => {
         justifyContent: "center"
       }}
     >
-      <M width={1500} height={100} center={[0, 0]} />
+      <M width={1920} height={950} center={[0, 0]} />
     </div>
   );
 }
