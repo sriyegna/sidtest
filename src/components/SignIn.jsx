@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,17 +19,45 @@ import instance from '../utils/axios';
 const theme = createTheme();
 
 const SignIn = () => {
+  let navigate = useNavigate();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = () => {
-    instance.get(`getUser?email=${email}`)
-      .then((results) => {
-        // compare bcrypted passwords
-        // if successful compate then save login to cookies and redux
-        // redirect to ski map trail page (backend redirect?)
-      })
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    
+    instance.get("/protected", {
+      headers: {
+        Authorization: token,
+      }
+    }).then(res => {
+      console.log(res)
+      navigate('/protected')
+    }).catch(err => {
+      console.log(err);
+      navigate('/login')
+    })
+  }, [])
+
+  const submit = () => {
+    console.log(email, password)
+    instance.post("/login", { email, password }).then(user => {
+      console.log(user);
+      localStorage.setItem('token', user.data.token)
+      navigate('/protected')
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  // const handleSubmit = () => {
+  //   instance.get(`getUser?email=${email}`)
+  //     .then((results) => {
+  //       // compare bcrypted passwords
+  //       // if successful compate then save login to cookies and redux
+  //       // redirect to ski map trail page (backend redirect?)
+  //     })
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -98,7 +127,7 @@ const SignIn = () => {
                 sx={{ mt: 3, mb: 2 }}
                 onClick={() => {
                   if (email && password) {
-                    handleSubmit()
+                    submit()
                   }
                 }}
               >
