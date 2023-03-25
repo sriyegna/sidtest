@@ -6,18 +6,32 @@ import { MapContainer, ImageOverlay } from "react-leaflet";
 import { CRS } from "leaflet";
 import "leaflet/dist/leaflet.css";
 // import L from "leaflet";
+import instance from '../utils/axios'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  increment,
+  decrement,
+  isCompleted,
+  selectTrails
+} from '../features/trailsSlice';
 
 const M = ({ width, height, zoom, center }) => {
   const hw = [height, width];
   const origin = [0, 0];
   const bounds = [origin, hw];
+  const dispatch = useDispatch()
 
+  instance.get('getRuns', (req, res) => {
   //axios call to get all run data from db, store in redux
   // have loading screen
   // .then render mapContariner
+  })
+
 
   return (
 
+    //map res: 1848 x 904
+    //will need logic to adjust image scaling based on different ski maps
     <div style={{ width: "1920px", height: "950px" }}>
       <MapContainer
 

@@ -72,6 +72,7 @@ const MapHandler = () => {
               trailDialogOpen={trail.name === trailDialogOpen}
               setTrailDialogOpen={setTrailDialogOpen}
               trail={trail}
+              runCounter={blueMountainTrails.trails[trail.name].runCounter}
             />
           </>
         )
