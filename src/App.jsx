@@ -2,6 +2,7 @@ import './App.css';
 import Map from './components/Map';
 import SignIn from './components/SignIn'
 import Register from './components/Register'
+import Protected from './components/Protected'
 import {
   createBrowserRouter,
   RouterProvider
@@ -17,12 +18,16 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/protected",
+    element: <Protected />,
+  },
+  {
     path: "/map",
     element: <Map />
   }
 ]);
 
-const App = (props) => {
+const App = () => {
   return (
     <RouterProvider router={router} />
   )
