@@ -11,9 +11,11 @@ import {
 } from '../features/trailsSlice';
 import TrailDialog from "./TrailDialog";
 import ConfirmDialog from "./ConfirmDialog";
+import { selectUser } from "../features/userSlice";
 
 const MapHandler = () => {
   const blueMountainTrails = useSelector(selectTrails)
+  const isLoggedIn = useSelector(selectUser)
   // const dispatch = useDispatch();
   const [clickedTrailName, setClickedTrailName] = useState('');
   const [trailDialogOpen, setTrailDialogOpen] = useState('');

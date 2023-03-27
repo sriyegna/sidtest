@@ -14,6 +14,7 @@ import {
   isCompleted,
   selectTrails
 } from '../features/trailsSlice';
+import { selectUser } from "../features/userSlice";
 
 const M = ({ width, height, zoom, center }) => {
   const hw = [height, width];
@@ -58,6 +59,7 @@ const M = ({ width, height, zoom, center }) => {
 };
 
 const Map = () => {
+  const isLoggedIn = useSelector(selectUser)
 
   return (
     <div
