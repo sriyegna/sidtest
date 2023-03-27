@@ -12,12 +12,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import instance from '../utils/axios';
-import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router';
+// import { v4 as uuidv4 } from 'uuid';
 // import bcrypt from "bcrypt";
 
 const theme = createTheme();
 
 const SignUp = () => {
+  let navigate = useNavigate()
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -26,7 +28,6 @@ const SignUp = () => {
   const handleSubmit = (event) => {
 
     const user = {
-      id: uuidv4(),
       firstName,
       lastName,
       email,
@@ -34,9 +35,14 @@ const SignUp = () => {
       password
     }
 
-    console.log(user)
+    // console.log(user)
 
-    instance.post('addUser', user)
+    instance.post('/register', user)
+    .then(res => {
+      console.log("registered")
+      navigate('/login')
+    })
+    .catch(err => {console.log(err)})
   };
 
   return (
