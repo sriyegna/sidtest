@@ -45,10 +45,14 @@ const TrailDialog = (props) => {
 
   return (
     <Dialog open={trailDialogOpen} onClose={() => setTrailDialogOpen('')}>
-      <Typography gutterBottom variant="h4" align="center">
-        Ski Run Dialog Info
-        {trail.name}
-      </Typography>
+      <Grid m={2} justifyContent="center" alignItems="center">
+        <Typography variant="h4" align="center">
+          {trail.name}
+        </Typography>
+        <Typography variant="h4" align="center">
+          {trail.difficulty}
+        </Typography>
+      </Grid>
       <Button onClick={() => incomplete()}>
         Not Completed
       </Button>
