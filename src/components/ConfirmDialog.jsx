@@ -34,7 +34,7 @@ const ConfirmDialog = (props) => {
     category: "",
     note: "",
   });
-  
+
   const complete = () => {
     instance.post('addRun')
     //uuid
@@ -44,12 +44,15 @@ const ConfirmDialog = (props) => {
 
   return (
     <Dialog open={clickedTrailName} onClose={() => setClickedTrailName(false)}>
-      <Typography gutterBottom variant="h4" align="center">
-        You have completed
-        {trail.name}
-        {trail.difficulty}
-        {/*  */}
-      </Typography>
+      <Grid m={2} justifyContent="center" alignItems="center">
+        <Typography variant="h4" align="center">
+          {trail.name}
+        </Typography>
+        <Typography variant="h4" align="center">
+          {trail.difficulty}
+        </Typography>
+
+      </Grid>
       <Button onClick={() => complete()}>
         Completed
       </Button>
