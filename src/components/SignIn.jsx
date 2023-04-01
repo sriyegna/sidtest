@@ -15,6 +15,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import instance from '../utils/axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToken, addUser, isLoggedIn, selectUser } from '../features/userSlice';
+import { useCookies } from 'react-cookie';
 
 const theme = createTheme();
 
@@ -22,32 +25,50 @@ const SignIn = () => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [cookies, setCookie] = useCookies(['token']);
+  // const isLoggedIn = useSelector(selectUser)
+  const dispatch = useDispatch()
+
+  // useEffect(() => {
+  // const token = localStorage.getItem('token');
+
+  //   instance.get("/protected", {
+  //     headers: {
+  //       // Authorization: token,
+  //       Authorization: cookies.token
+  //     }
+  //   }).then(res => {
+  //     console.log(res)
+  //     // navigate('/protected')
+  //   }).catch(err => {
+  //     console.log(err);
+  //     // navigate('/login')
+  //   })
+  // }, [])
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    
-    instance.get("/protected", {
-      headers: {
-        Authorization: token,
-      }
-    }).then(res => {
-      console.log(res)
-      navigate('/protected')
-    }).catch(err => {
-      console.log(err);
-      navigate('/login')
-    })
+    if (cookies.token) {
+      navigate('/map')
+    }
+    console.log(isLoggedIn)
   }, [])
 
   const submit = () => {
-    console.log(email, password)
-    instance.post("/login", { email, password }).then(user => {
-      console.log(user);
-      localStorage.setItem('token', user.data.token)
-      navigate('/protected')
-    }).catch(err => {
-      console.log(err);
-    })
+    console.log('empass', email, password)
+    instance.post("/login", { email, password })
+      .then(res => {
+        console.log('res', res);
+        setCookie('token', res.data.token, { path: '/' });
+        console.log('islogged')
+        dispatch(addUser(res.data))
+        dispatch(addToken(res.data.token))
+        navigate('/map')
+        // localStorage.setItem('token', user.data.token)
+        // navigate('/protected')
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   // const handleSubmit = () => {
@@ -58,6 +79,10 @@ const SignIn = () => {
   //       // redirect to ski map trail page (backend redirect?)
   //     })
   // };
+  // .then(res => {
+  //   console.log(response.data.data.user.firstName)
+  //   dlv(response, 'data.data.user.firstName', "")
+  // })
 
   return (
     <ThemeProvider theme={theme}>
@@ -152,5 +177,6 @@ const SignIn = () => {
     </ThemeProvider>
   );
 }
+
 
 export default SignIn

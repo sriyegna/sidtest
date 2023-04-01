@@ -6,7 +6,9 @@ function Protected() {
     let navigate = useNavigate()
 
     useEffect(() => {
+        //store token in cookies
         const token = localStorage.getItem('token');
+        console.log(token)
         instance.get("/protected", {
             headers: {
                 Authorization: token,
@@ -15,10 +17,10 @@ function Protected() {
             console.log(res)
         }).catch(err => {
             console.log(err);
-            navigate('/login')
+            // navigate('/login')
         })
     }, [])
-    
+
     return (
         <div>
             <h1>Protected</h1>

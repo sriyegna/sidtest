@@ -12,11 +12,14 @@ import {
 import TrailDialog from "./TrailDialog";
 import ConfirmDialog from "./ConfirmDialog";
 import { selectUser } from "../features/userSlice";
+import instance from "../utils/axios";
+
 
 const MapHandler = () => {
   const blueMountainTrails = useSelector(selectTrails)
+  const mountainName = blueMountainTrails.name
   const isLoggedIn = useSelector(selectUser)
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [clickedTrailName, setClickedTrailName] = useState('');
   const [trailDialogOpen, setTrailDialogOpen] = useState('');
   // console.log('bmtrail', blueMountainTrails)
@@ -27,6 +30,35 @@ const MapHandler = () => {
     },
     []
   );
+
+  const setTrailCompleted = (trailName) => {
+    console.log('add run', trailName)
+
+    instance.post('addRun', {
+      //userID : token
+      mountainName,
+      trailName,
+      runCounter: 1,
+      //date
+    })
+      .then(res => {
+        dispatch(isCompleted(trailName))
+        setClickedTrailName('')
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  const setTrailIncomplete = (trailName) => {
+    console.log('remove run', trailName)
+    instance.post('deleteRun', {
+      // userID: cookies.get('token'),
+    })
+
+    dispatch(isCompleted(trailName))
+    setTrailDialogOpen('')
+  }
 
   useMapEvent("click", onDoubleClick);
 
@@ -55,8 +87,10 @@ const MapHandler = () => {
                   if (!blueMountainTrails.trails[trail.name].isCompleted) {
                     setClickedTrailName(trail.name)
 
+                    // axios function
+
                     //   // open dialog with trail details and confirm button
-                      // dispatch(isCompleted(trail.name))
+                    // dispatch(isCompleted(trail.name))
                   }
 
                   if (blueMountainTrails.trails[trail.name].isCompleted) {
@@ -68,11 +102,13 @@ const MapHandler = () => {
             <ConfirmDialog
               clickedTrailName={trail.name === clickedTrailName}
               setClickedTrailName={setClickedTrailName}
+              setTrailCompleted={setTrailCompleted}
               trail={trail}
             />
             <TrailDialog
               trailDialogOpen={trail.name === trailDialogOpen}
               setTrailDialogOpen={setTrailDialogOpen}
+              setTrailIncomplete={setTrailIncomplete}
               trail={trail}
               runCounter={blueMountainTrails.trails[trail.name].runCounter}
             />

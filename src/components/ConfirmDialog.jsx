@@ -27,6 +27,7 @@ const ConfirmDialog = (props) => {
   const {
     clickedTrailName,
     setClickedTrailName,
+    setTrailCompleted,
     trail
   } = props
   const [inputs, setInputs] = useState({
@@ -34,13 +35,6 @@ const ConfirmDialog = (props) => {
     category: "",
     note: "",
   });
-
-  const complete = () => {
-    instance.post('addRun')
-    //uuid
-    dispatch(isCompleted(trail.name))
-    setClickedTrailName('')
-  }
 
   return (
     <Dialog open={clickedTrailName} onClose={() => setClickedTrailName(false)}>
@@ -53,7 +47,7 @@ const ConfirmDialog = (props) => {
         </Typography>
 
       </Grid>
-      <Button onClick={() => complete()}>
+      <Button onClick={() => setTrailCompleted(trail.name)}>
         Completed
       </Button>
     </Dialog>

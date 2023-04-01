@@ -22,8 +22,9 @@ const M = ({ width, height, zoom, center }) => {
   const bounds = [origin, hw];
   const dispatch = useDispatch()
 
+  //useeffect to get all runs for user id
   instance.get('getRuns', (req, res) => {
-  //axios call to get all run data from db, store in redux
+  //axios call to get all run data from db for user id, store in redux
   // have loading screen
   // .then render mapContariner
   })

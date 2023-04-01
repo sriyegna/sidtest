@@ -21,12 +21,15 @@ import {
   FormControl
 } from "@mui/material";
 import instance from '../utils/axios'
+import { Cookies } from 'react-cookie'
+
 
 const TrailDialog = (props) => {
   const dispatch = useDispatch();
   const {
     trailDialogOpen,
     setTrailDialogOpen,
+    setTrailIncomplete,
     trail
   } = props
   const [inputs, setInputs] = useState({
@@ -36,12 +39,6 @@ const TrailDialog = (props) => {
   });
 
   //pull counter from redux using trail name
-
-  const incomplete = () => {
-    //instance.post removeRun
-    dispatch(isCompleted(trail.name))
-    setTrailDialogOpen('')
-  }
 
   return (
     <Dialog open={trailDialogOpen} onClose={() => setTrailDialogOpen('')}>
@@ -53,7 +50,10 @@ const TrailDialog = (props) => {
           {trail.difficulty}
         </Typography>
       </Grid>
-      <Button onClick={() => incomplete()}>
+      <Button onClick={() => {
+        setTrailIncomplete(trail.name)
+        console.log(Cookies.get('token'))
+      }}>
         Not Completed
       </Button>
     </Dialog>
