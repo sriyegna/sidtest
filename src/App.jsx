@@ -2,37 +2,39 @@ import './App.css';
 import Map from './components/Map';
 import SignIn from './components/SignIn'
 import Register from './components/Register'
-import Protected from './components/Protected'
+import UserGuard from './components/UserGuard';
 import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
-import { CookiesProvider } from 'react-cookie';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SignIn />,
+    element:
+      <UserGuard>
+        <SignIn />
+      </UserGuard>,
   },
   {
     path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/protected",
-    element: <Protected />,
+    element:
+      <UserGuard>
+        <Register />
+      </UserGuard>
   },
   {
     path: "/map",
-    element: <Map />
+    element:
+      <UserGuard>
+        <Map />
+      </UserGuard>
   }
 ]);
 
 const App = () => {
   return (
-    <CookiesProvider>
-      <RouterProvider router={router} />
-    </CookiesProvider>
+    <RouterProvider router={router} />
   )
 }
 

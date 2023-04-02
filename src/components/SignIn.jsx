@@ -46,15 +46,16 @@ const SignIn = () => {
   //   })
   // }, [])
 
-  useEffect(() => {
-    if (cookies.token) {
-      navigate('/map')
-    }
-    console.log(isLoggedIn)
-  }, [])
+  // useEffect(() => {
+  //   if (cookies.token) {
+  //     navigate('/map')
+  //   }
+  //   console.log(isLoggedIn)
+  // }, [])
 
   const submit = () => {
     console.log('empass', email, password)
+    debugger
     instance.post("/login", { email, password })
       .then(res => {
         console.log('res', res);
@@ -118,7 +119,7 @@ const SignIn = () => {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -141,10 +142,10 @@ const SignIn = () => {
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth

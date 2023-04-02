@@ -17,7 +17,7 @@ function Protected() {
             console.log(res)
         }).catch(err => {
             console.log(err);
-            // navigate('/login')
+            navigate('/login')
         })
     }, [])
 
