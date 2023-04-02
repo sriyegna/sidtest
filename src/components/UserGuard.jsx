@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom'
 import SignIn from './SignIn';
 import Register from './Register'
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const UserGuard = (props) => {
   debugger;
@@ -28,14 +28,16 @@ const UserGuard = (props) => {
 
   const notLoggedInPath = useMemo(() => checkIsInNotLoggedInPath(), [location.pathname])
 
+  useEffect(() => {
+    if (cookies.token && notLoggedInPath) {
+        navigate('/map');  
+    }
+  }, [cookies.token, notLoggedInPath])
+
   console.log(location.pathname);
 
   if (cookies.token) {
-    if (notLoggedInPath) {
-      navigate('/map');
-    } else {
-      return props.children;
-    }
+    return props.children;
   } else {
     const path = notLoggedInPath;
     if (path) {
